@@ -1,0 +1,1 @@
+xterm -j -e " echo 'MOBHOTSPOT USERS'; read -p 'press enter to start'; netstat -n --tcp --udp --numeric-hosts | grep -v 127.0.0.1 | awk '{if (/(tcp|udp)/) { print $5 }}' | sed 's/:.*//' | sort | uniq -c | sort -n | awk '{if ($1 > 10) {print  "$1?t"$2;" }}' read -p 'press enter to close this window.'"

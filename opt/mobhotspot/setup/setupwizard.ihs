@@ -1,0 +1,58 @@
+#! /bin/bash
+zenity --info --title="Setup Wizard" --text="Welcome!!! This wizard will help you to build your setup. Press OK to continue."
+rootpwsetup=$(zenity --title="Root-Password"  --text='Please enter root password.' --hide-text="" --entry)
+	echo $rootpwsetup | sudo -S service hostapd stop
+	echo $rootpwsetup | sudo -S sudo service dnsmasq stop
+	echo $rootpwsetup | sudo -S sudo update-rc.d hostapd disable
+	echo $rootpwsetup | sudo -S sudo update-rc.d dnsmasq disable
+	/opt/mobhotspot/setup/changewifi.ihs
+	/opt/mobhotspot/setup/changeroute.ihs
+SECURE=$(zenity --title="Save Root Password?" --list --text="Do you want to save root password? Saving root means you can conveniently create wifi without hassle, but not saving will make it more secure:" --column="Save?" --radiolist  --column="Option" \
+TRUE "yes" \
+FALSE "no" )
+rootpwnew="rootpwmain='"$rootpwsetup"'"
+rootpwold1=$(grep rootpwmain= /opt/mobhotspot/connection/refresh.ihs)
+rootpwold2=$(grep rootpwmain= /opt/mobhotspot/connection/start.ihs)
+rootpwold3=$(grep rootpwmain= /opt/mobhotspot/connection/stop.ihs)
+DPATH1=" /opt/mobhotspot/connection/refresh.ihs"
+DPATH2=" /opt/mobhotspot/connection/start.ihs"
+DPATH3=" /opt/mobhotspot/connection/stop.ihs"
+BPATH=" /opt/mobhotspot/backup"
+TFILE="/tmp/out.tmp.$$"
+TFILE="/tmp/out.tmp.$$"
+if [[ "$SECURE" = "yes" ]]; then
+	[ ! -d $BPATH ] && mkdir -p $BPATH || :
+	for f in $DPATH1
+	do
+	if [ -f $f -a -r $f ]; then
+	 /bin/cp -f $f $BPATH
+	   sed "s/$rootpwold1/$rootpwnew/g" "$f" > $TFILE && mv $TFILE "$f"
+	else
+	  echo "Error: Cannot read $f"
+	 fi 
+	done
+	[ ! -d $BPATH ] && mkdir -p $BPATH || :
+	for f in $DPATH2
+	do
+	if [ -f $f -a -r $f ]; then
+	 /bin/cp -f $f $BPATH
+	   sed "s/$rootpwold2/$rootpwnew/g" "$f" > $TFILE && mv $TFILE "$f"
+	else
+	  echo "Error: Cannot read $f"
+	 fi 
+	done
+	[ ! -d $BPATH ] && mkdir -p $BPATH || :
+	for f in $DPATH3
+	do
+	if [ -f $f -a -r $f ]; then
+	 /bin/cp -f $f $BPATH
+	   sed "s/$rootpwold3/$rootpwnew/g" "$f" > $TFILE && mv $TFILE "$f"
+	else
+	  echo "Error: Cannot read $f"
+	 fi 
+	done
+	chmod +x $DPATH1 $DPATH2 $DPATH3
+else
+	""
+fi
+zenity --info --title="Setup completed" 

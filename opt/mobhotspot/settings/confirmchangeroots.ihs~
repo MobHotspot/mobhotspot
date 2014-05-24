@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config>
+	<label postion="center">
+	 echo ".             Are you sure to change Root?"
+	 echo ".            You only need to change root "
+	 echo ".            password if you have changed "
+	 echo ".               your system's password. "
+	 echo ".           If you do not know what is this,"
+	 echo ".              you might be in the wrong "
+	 echo  ".                                place. "
+	</label>
+	 <button title="OK, Cancel" height="40">
+	   <code>
+	   killall test
+	   mobhotspot
+	   </code>
+	 </button>
+	 <button title="No, I want to change my root password.">
+	   /home/tejesh/test/opt/mobhotspot/settings/changeroots.ihs
+	 </button>
+	   <code>
+	   </code>
+</config>
+

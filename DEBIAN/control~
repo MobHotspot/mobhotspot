@@ -1,0 +1,16 @@
+package: mobhotspot
+version: 1.0.0
+architecture: all
+maintainer: tejesh
+description: MOBHOTSPOT
+             mobhotspot Ubuntu Infrastructure Wireless Connection
+ mobhotspot is an Infrastructure Wireless Connection Manager 
+ built specifically for Ubuntu or debian based systems. It is the Ubuntu's open-source 
+ alternative for Connectify-me in windows and ubuntu's wi-fi hotspot manager.
+
+ Features:
+
+ * Compatible with android devices and others with wi-fi.
+ * Flexibility to edit wi-fi settings.
+ * other updates will be soon in mobhotspot 1.0.1
+

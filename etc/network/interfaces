@@ -1,0 +1,28 @@
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eth0
+iface eth0 inet static
+address 192.168.1.15
+netmask 255.255.255.0
+network 192.168.1.0
+broadcast 192.168.1.255
+gateway 192.168.1.1
+
+
+#The secondary network interfaces
+auto eth1
+iface eth1 inet static
+address 10.0.0.15
+netmask 255.0.0.0
+network 10.0.0.0
+broadcast 10.255.255.255
+
+auto wlan0
+iface wlan0 inet static
+address 10.0.0.20
+netmask 255.255.255.255
+network 10.0.0.0
+broadcast 10.255.255.255

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config>
+	<label>
+	 echo " Are you sure to remove Root?"
+	 echo " It enhance security but it "
+	 echo " is less convenient.         "
+	</label>
+	<hlayout>
+	 <button title="Cancel">
+	   <code>
+	   killall test
+	   mobhotspot
+	   </code>
+	 </button>
+	 <button title="OK,remove it">
+	   /opt/mobhotspot/settings/removeroot.ihs
+	 </button>
+	   <code>
+	   </code>
+	</hlayout>
+</config>
+

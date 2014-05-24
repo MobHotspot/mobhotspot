@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=0.8.4
+Name=Wiconnect
+Comment=Wiconnect Infrastructure Wireless Connection
+Icon=/opt/mobhotspot/images/antenna-2.png
+Exec=mobhotspot %f
+Categories=Internet;
+Name[en_IN]=mobhotspot
+Comment[en_IN]=Mobhotspot Infrastructure Wireless Connection

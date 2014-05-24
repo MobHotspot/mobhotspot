@@ -1,0 +1,1 @@
+xterm -j -e " echo 'MOBHOTSPOT USERS'; read -p 'press enter to start'; iw dev wlan0 station dump;  nmap -sP 192.168.150.* ; echo 'nobody else is sharing the network'; read -p 'press enter to close this window.'"

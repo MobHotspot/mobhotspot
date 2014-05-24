@@ -1,0 +1,22 @@
+#! /bin/bash
+control='nodefaultpassword'
+rootpwmain='xdr54esz'
+rootpw=$( if [ $control = $rootpwmain ]; then
+	zenity --title="Root-Password"  --text='Please enter root password to continue' --hide-text="" --entry
+	else
+	 echo $rootpwmain
+	fi )
+route='ttyUSB4'
+# Stop
+# Disable NAT
+echo $rootpw | sudo -S iptables -D POSTROUTING -t nat -o $route -j MASQUERADE
+# Disable routing
+echo $rootpw | sudo -S sysctl net.ipv4.ip_forward=0
+# Disable DHCP/DNS server
+echo $rootpw | sudo -S service dnsmasq stop
+echo $rootpw | sudo -S killall dnsmasq
+echo $rootpw | sudo -S service hostapd stop
+echo $rootpw | sudo -S killall hostapd
+echo $rootpw | sudo -S update-rc.d hostapd disable
+echo $rootpw | sudo -S update-rc.d dnsmasq disable
+zenity --title="Connection Closed" --info --text="Connection successfully disconnected" & sleep 3; kill $!

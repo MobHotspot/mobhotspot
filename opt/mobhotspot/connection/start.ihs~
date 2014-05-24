@@ -1,0 +1,33 @@
+#! /bin/bash
+control='nodefaultpassword'
+rootpwmain='xdr54esz'
+rootpw=$( if [ $control = $rootpwmain ]; then
+	zenity --title="Root-Password"  --text='Please enter root password to continue' --hide-text="" --entry
+	else
+	 echo $rootpwmain
+	fi )
+route='ttyUSB4'
+# Stop
+	# Disable NAT
+	echo $rootpw | sudo -S iptables -D POSTROUTING -t nat -o $route -j MASQUERADE
+	# Disable routing
+	echo $rootpw | sudo -S sysctl net.ipv4.ip_forward=0
+	# Disable DHCP/DNS server
+	echo $rootpw | sudo -S service dnsmasq stop
+	echo $rootpw | sudo -S killall dnsmasq
+	echo $rootpw | sudo -S service hostapd stop
+	echo $rootpw | sudo -S killall hostapd
+	echo $rootpw | sudo -S update-rc.d hostapd disable
+	echo $rootpw | sudo -S update-rc.d dnsmasq disable
+	killall /home/tejesh/test/opt/mobhotspot/connection/start.ihs
+# Start
+	# Configure IP address for WLAN
+	echo $rootpw | sudo -S ifconfig wlan0 192.168.150.1
+	# Start DHCP/DNS server
+	echo $rootpw | sudo -S service dnsmasq restart
+	# Enable routing
+	echo $rootpw | sudo -S sysctl net.ipv4.ip_forward=1
+	# Enable NAT
+	echo $rootpw | sudo -S iptables -t nat -A POSTROUTING -o $route -j MASQUERADE
+	# Run access point daemon
+	echo $rootpw | sudo -S hostapd /etc/hostapd.conf | zenity --title="Connection Created" --info --text="Connection successfully refreshed.Press OK to continue." & sleep 3; kill $!

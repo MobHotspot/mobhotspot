@@ -1,0 +1,45 @@
+ #!/bin/bash
+rootpwres=$( zenity --title="Root-Password"  --text='Please enter root password' --hide-text="" --entry )
+rootpwold1=$(grep rootpwmain= /opt/mobhotspot/connection/refresh.ihs)
+rootpwold2=$(grep rootpwmain= /opt/mobhotspot/connection/start.ihs)
+rootpwold3=$(grep rootpwmain= /opt/mobhotspot/connection/stop.ihs)
+rootpwold4=$(grep rootpwmain= /opt/mobhotspot/settings/changewifi.ihs)
+rootpwnew="rootpwmain='"$rootpwres"'"
+DPATH1=" /opt/mobhotspot/connection/refresh.ihs"
+DPATH2=" /opt/mobhotspot/connection/start.ihs"
+DPATH3=" /opt/mobhotspot/connection/stop.ihs"
+BPATH=" /opt/mobhotspot/backup"
+TFILE="/tmp/out.tmp.$$"
+TFILE="/tmp/out.tmp.$$"
+	[ ! -d $BPATH ] && mkdir -p $BPATH || :
+	for f in $DPATH1
+	do
+	if [ -f $f -a -r $f ]; then
+	 /bin/cp -f $f $BPATH
+	   sed "s/$rootpwold1/$rootpwnew/g" "$f" > $TFILE && mv $TFILE "$f"
+	else
+	  echo "Error: Cannot read $f"
+	 fi 
+	done
+	[ ! -d $BPATH ] && mkdir -p $BPATH || :
+	for f in $DPATH2
+	do
+	if [ -f $f -a -r $f ]; then
+	 /bin/cp -f $f $BPATH
+	   sed "s/$rootpwold2/$rootpwnew/g" "$f" > $TFILE && mv $TFILE "$f"
+	else
+	  echo "Error: Cannot read $f"
+	 fi 
+	done
+	[ ! -d $BPATH ] && mkdir -p $BPATH || :
+	for f in $DPATH3
+	do
+	if [ -f $f -a -r $f ]; then
+	 /bin/cp -f $f $BPATH
+	   sed "s/$rootpwold3/$rootpwnew/g" "$f" > $TFILE && mv $TFILE "$f"
+	else
+	  echo "Error: Cannot read $f"
+	 fi 
+	done
+	chmod +x $DPATH1 $DPATH2 $DPATH3
+fi

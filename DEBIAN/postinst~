@@ -1,0 +1,4 @@
+#! /bin/bash
+if zenity --title "Install Completed" --question --text="successfully installed. Please configure your wiconnect settings using the (Setup /Resetup Wizard) button in connection tab. Thank you for using wiconnect"; then
+    test
+fi
